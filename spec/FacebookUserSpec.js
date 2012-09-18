@@ -93,6 +93,25 @@ describe('FacebookUser', function() {
 
     });
 
+    describe('with callback', function() {
+
+      var user;
+      var cb = jasmine.createSpy('cb');
+
+      beforeEach(function() {
+        user = new FacebookUser();
+      });
+
+      afterEach(function() {
+        cb.reset();
+      });
+
+      it('calls the callback after the login', function() {
+        user.login(cb);
+        expect(FB.login).toHaveBeenCalledWith(cb, jasmine.any(Object));
+      });
+    });
+
   });
 
   describe('#logout', function() {
@@ -282,6 +301,7 @@ describe('FacebookUser', function() {
   describe('#profilePictureUrl', function() {
 
     it('creates a url for the passed arguments', function() {
+      user.options.protocol = 'http:';
       var url = user.profilePictureUrl(1, 'small');
       expect(url).toBe('http://graph.facebook.com/1/picture?type=small');
     });
