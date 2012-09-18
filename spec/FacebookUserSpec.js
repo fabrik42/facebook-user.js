@@ -282,6 +282,7 @@ describe('FacebookUser', function() {
   describe('#profilePictureUrl', function() {
 
     it('creates a url for the passed arguments', function() {
+      user.options.protocol = 'http:';
       var url = user.profilePictureUrl(1, 'small');
       expect(url).toBe('http://graph.facebook.com/1/picture?type=small');
     });
