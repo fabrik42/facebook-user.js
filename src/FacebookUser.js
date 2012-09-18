@@ -22,6 +22,10 @@
 
     _loginStatus: null,
 
+    isConnected: function() {
+      return this._loginStatus === 'connected';
+    },
+
     login: function(callback){
       if (typeof callback === 'undefined') {
         callback = function() {};
