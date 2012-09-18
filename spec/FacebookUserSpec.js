@@ -93,6 +93,25 @@ describe('FacebookUser', function() {
 
     });
 
+    describe('with callback', function() {
+
+      var user;
+      var cb = jasmine.createSpy('cb');
+
+      beforeEach(function() {
+        user = new FacebookUser();
+      });
+
+      afterEach(function() {
+        cb.reset();
+      });
+
+      it('calls the callback after the login', function() {
+        user.login(cb);
+        expect(FB.login).toHaveBeenCalledWith(cb, jasmine.any(Object));
+      });
+    });
+
   });
 
   describe('#logout', function() {
