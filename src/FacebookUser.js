@@ -22,8 +22,11 @@
 
     _loginStatus: null,
 
-    login: function(){
-      FB.login(function(){}, { scope: this.options.scope.join(',') });
+    login: function(callback){
+      if (typeof callback === 'undefined') {
+        callback = function() {};
+      }
+      FB.login(callback, { scope: this.options.scope.join(',') });
     },
 
     logout: function(){
