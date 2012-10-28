@@ -95,12 +95,7 @@ describe('FacebookUser', function() {
 
     describe('with callback', function() {
 
-      var user;
       var cb = jasmine.createSpy('cb');
-
-      beforeEach(function() {
-        user = new FacebookUser();
-      });
 
       afterEach(function() {
         cb.reset();
@@ -215,6 +210,20 @@ describe('FacebookUser', function() {
 
   });
 
+  describe('#isConnected', function() {
+
+    it('returns true if connected', function() {
+      user._loginStatus = 'connected';
+      expect(user.isConnected()).toBe(true);
+    });
+
+    it('returns false in other cases', function() {
+      user._loginStatus = 'disconnected';
+      expect(user.isConnected()).toBe(false);
+    });
+
+  });
+
   describe('#parse', function() {
 
     var response = { id: 1, other: 'ok' };
@@ -233,10 +242,6 @@ describe('FacebookUser', function() {
   });
 
   describe('#sync', function() {
-
-    beforeEach(function() {
-
-    });
 
     _(['create', 'update', 'delete']).each(function(method) {
 
