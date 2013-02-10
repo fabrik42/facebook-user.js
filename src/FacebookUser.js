@@ -74,7 +74,7 @@
         if(response.error) {
           options.error(response);
         } else {
-          options.success(response);
+          options.success(model, response, options);
         }
         return true;
       };
