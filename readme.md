@@ -60,6 +60,12 @@ user.fetch()
 user.updateLoginStatus()
 </pre>
 
+### SIGNIFICANT CHANGES:
+
+#### V. 1.0.0
+
+`FacebookUser#sync`: The parameters passed to the `success` callback of changed from `success(response)` to `success(model, response, options)` to match the signature of the Backbone `sync` callbacks in 0.9.10. (see https://github.com/fabrik42/facebook-user.js/pull/8)
+
 ### LICENSE:
 
 (The MIT License)
