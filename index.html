@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>backbone-facebook-user</title>
+  <link rel="stylesheet" href="//twitter.github.com/bootstrap/assets/css/bootstrap.css" />
+  <link rel="stylesheet" href="//twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.css" />
+  <script src="//twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.js"></script>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script src="./spec/lib/underscore-1.4.4/underscore.js"></script>
+  <script src="./spec/lib/backbone-0.9.10/backbone.js"></script>
+  <script src="./src/FacebookUser.js"></script>
+
+  <script>
+    window.fbAsyncInit = function() {
+      console.info('FB jssdk loaded');
+
+      FB.init({
+        appId: '302411106512755'
+      });
+
+      user = new FacebookUser();
+
+      user.on('facebook:unauthorized', function(model, response) {
+        console.info('facebook:unauthorized');
+        $('#loginstatus').text(response.status);
+      });
+
+      user.on('facebook:connected', function(model, response) {
+        console.info('facebook:connected');
+        $('#loginstatus').text(response.status);
+        $('#login').attr('disabled', true);
+        $('#logout').attr('disabled', false);
+      });
+
+      user.on('facebook:disconnected', function(model, response) {
+        console.info('facebook:disconnected');
+        $('#loginstatus').text(response.status);
+        $('#login').attr('disabled', false);
+        $('#logout').attr('disabled', true)
+      });
+
+      user.on('change', function() {
+        console.info('change');
+
+        var table = $('.table tbody').empty();
+        _(user.attributes).each(function(value, attribute){
+          if (typeof value !== 'string') return;
+          var tr = $(document.createElement('tr'));
+          var attr = $(document.createElement('td')).text(attribute).appendTo(tr);
+          var val = $(document.createElement('td')).text(value).appendTo(tr);
+          tr.append(attr).append(val).appendTo(table);
+        }, this);
+
+        $('#user_picture').show().attr('src', user.get('pictures').square);
+      });
+
+      $('#login').click(function(){ user.login() });
+      $('#logout').click(function(){ user.logout() });
+
+      user.updateLoginStatus();
+    };
+
+    // Load the SDK Asynchronously
+    (function(d){
+       var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement('script'); js.id = id; js.async = true;
+       js.src = "//connect.facebook.net/en_US/all.js";
+       ref.parentNode.insertBefore(js, ref);
+     }(document));
+  </script>
+</head>
+<body onload="prettyPrint()">
+  <div class="container">
+    <div class="page-header">
+      <h1>backbone-facebook-user <small>A small wrapper that wraps facebook connect in a backbone.js model</small></h1>
+    </div>
+
+    <div class="row">
+      <div class="span5">
+
+        <h2>Getting started guide</h2>
+
+        <p>
+          This small lib provides a Backbone model that works with the facebook JavaScript SDK.
+        </p>
+        <p>
+          It can be used to connect a user via facebook, ask for permissions and retrieve profile information.
+        </p>
+        <p>
+          The events of the facebook SDK are converted to Backbone events so the model can easily be used with Backbone views.
+        </p>
+
+        <h3>Dependencies</h3>
+
+        <ul>
+          <li><a href="http://backbonejs.org">Backbone.js</a></li>
+          <li><a href="https://developers.facebook.com/docs/reference/javascript">FB JavaScript SDK</a></li>
+        </ul>
+
+<h3>Make sure you initialized the facebook SDK</h3>
+<pre class="prettyprint linenums">
+FB.init({
+  appId: 'YOUR-FACEBOOK-APP-ID'
+})
+</pre>
+
+<h3>Create a model</h3>
+<pre class="prettyprint linenums">
+user = new FacebookUser()
+</pre>
+
+<h3>Register to model events</h3>
+<pre class="prettyprint linenums">
+// callback example:
+// callback = function(model, response) {}
+user.on('facebook:connected',    callback)
+user.on('facebook:disconnected', callback)
+user.on('facebook:unauthorized', callback)
+</pre>
+
+<h3>Log the user in <small>(opens the facebook popup)</small></h3>
+<pre class="prettyprint linenums">
+user.login()
+</pre>
+
+<h3>Log the user out</h3>
+<pre class="prettyprint linenums">
+user.logout()
+</pre>
+
+<h3>Fetch the facebook profile</h3>
+<pre class="prettyprint linenums">
+user.fetch()
+</pre>
+
+<h3>Check for Login status <small>(e.g. after initialization)</small></h3>
+<pre class="prettyprint linenums">
+user.updateLoginStatus()
+</pre>
+
+      </div>
+      <div class="span6 offset1">
+        <div class="hero-unit">
+          <h1>Playground</h1>
+          <p>Try it out yourself here.</p>
+          <p>
+            <button id="login" class="btn btn-large">Login</button>
+            <button id="logout" class="btn btn-large" disabled="disabled">Logout</button>
+          </p>
+        </div>
+
+        <ul class="thumbnails">
+          <li>
+            <a href="#" class="thumbnail">
+              <img id="user_picture" src=""/>
+            </a>
+          </li>
+        </ul>
+
+        <h2>Login status: <span id="loginstatus"></span></h2>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Attribute</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>...</td>
+              <td>connect to facebook to see your profile info here</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+  <div id="fb-root"></div>
+  <a href="https://github.com/fabrik42/facebook-user.js"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
+</body>
+</html>
