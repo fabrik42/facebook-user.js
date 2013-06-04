@@ -58,8 +58,8 @@
         event = 'facebook:disconnected';
       }
 
-      this.trigger(event, this, response);
       this._loginStatus = response.status;
+      this.trigger(event, this, response);
     },
 
     parse: function(response) {
