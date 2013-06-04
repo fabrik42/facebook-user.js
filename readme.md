@@ -10,7 +10,7 @@ The events of the facebook SDK are converted to Backbone events so the model can
 
 ## Demo
 
-Try it out yourself on the [demo page](http://facebook-userjs.fabrik42.5apps.com)
+Try it out yourself on the [demo page](http://fabrik42.github.io/facebook-user.js)
 
 ## Getting Started Guide
 
