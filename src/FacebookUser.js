@@ -1,5 +1,5 @@
 /*
- * facebook-user.js V. 1.0.0, Created 2012 by Christian Bäuerlein
+ * facebook-user.js V. 1.1.0, Created 2012 by Christian Bäuerlein
  */
 (function(scope, Backbone) {
 
