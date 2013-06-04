@@ -16,7 +16,7 @@ Try it out yourself on the [demo page](http://fabrik42.github.io/facebook-user.j
 
 <h3>Dependencies</h3>
 
-* <a href="http://backbonejs.org">Backbone.js</a></li>
+* <a href="http://backbonejs.org">Backbone.js (1.0.0+)</a></li>
 * <a href="https://developers.facebook.com/docs/reference/javascript">FB JavaScript SDK</a>
 
 <h3>Make sure you initialized the facebook SDK</h3>
