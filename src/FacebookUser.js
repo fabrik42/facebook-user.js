@@ -82,7 +82,9 @@
         return true;
       };
 
-      FB.api('/me', callback);
+      var request = FB.api('/me', callback);
+      model.trigger('request', model, request, options);
+      return request;
     },
 
     profilePictureUrls: function(id) {
